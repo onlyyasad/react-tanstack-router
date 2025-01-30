@@ -13,18 +13,43 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LayoutImport } from './routes/_layout'
+import { Route as publicLoginImport } from './routes/(public)/login'
+import { Route as publicLayoutImport } from './routes/(public)/_layout'
 
 // Create Virtual Routes
 
+const publicImport = createFileRoute('/(public)')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const publicRoute = publicImport.update({
+  id: '/(public)',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const publicLoginRoute = publicLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => publicRoute,
+} as any)
+
+const publicLayoutRoute = publicLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => publicRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -37,39 +62,98 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/(public)': {
+      id: '/(public)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof publicImport
+      parentRoute: typeof rootRoute
+    }
+    '/(public)/_layout': {
+      id: '/(public)/_layout'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof publicLayoutImport
+      parentRoute: typeof publicRoute
+    }
+    '/(public)/login': {
+      id: '/(public)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof publicLoginImport
+      parentRoute: typeof publicImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface publicRouteChildren {
+  publicLayoutRoute: typeof publicLayoutRoute
+  publicLoginRoute: typeof publicLoginRoute
+}
+
+const publicRouteChildren: publicRouteChildren = {
+  publicLayoutRoute: publicLayoutRoute,
+  publicLoginRoute: publicLoginRoute,
+}
+
+const publicRouteWithChildren =
+  publicRoute._addFileChildren(publicRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof publicLayoutRoute
+  '': typeof LayoutRoute
+  '/login': typeof publicLoginRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof publicLayoutRoute
+  '': typeof LayoutRoute
+  '/login': typeof publicLoginRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/_layout': typeof LayoutRoute
+  '/(public)': typeof publicRouteWithChildren
+  '/(public)/_layout': typeof publicLayoutRoute
+  '/(public)/login': typeof publicLoginRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '' | '/login'
+  id:
+    | '__root__'
+    | '/'
+    | '/_layout'
+    | '/(public)'
+    | '/(public)/_layout'
+    | '/(public)/login'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  LayoutRoute: typeof LayoutRoute
+  publicRoute: typeof publicRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  LayoutRoute: LayoutRoute,
+  publicRoute: publicRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -82,11 +166,31 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/_layout",
+        "/(public)"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/_layout": {
+      "filePath": "_layout.tsx"
+    },
+    "/(public)": {
+      "filePath": "(public)",
+      "children": [
+        "/(public)/_layout",
+        "/(public)/login"
+      ]
+    },
+    "/(public)/_layout": {
+      "filePath": "(public)/_layout.tsx",
+      "parent": "/(public)"
+    },
+    "/(public)/login": {
+      "filePath": "(public)/login.tsx",
+      "parent": "/(public)"
     }
   }
 }
