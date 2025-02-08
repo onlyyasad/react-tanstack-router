@@ -12,9 +12,10 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu"
-import { Payment } from "../TeachersPage"
+import { ITeacher } from "@/types/teachers"
 
-export const teacherColumns: ColumnDef<Payment>[] = [
+
+export const teacherColumns: ColumnDef<ITeacher>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -91,7 +92,7 @@ export const teacherColumns: ColumnDef<Payment>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
+                onClick={() => navigator.clipboard.writeText(payment.id.toString())}
               >
                 Copy payment ID
               </DropdownMenuItem>
