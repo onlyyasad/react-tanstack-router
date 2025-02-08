@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/_layout/')({
   component: RouteComponent,
@@ -9,7 +9,11 @@ function RouteComponent() {
   return (
     <div>
       Hello "/"!
-      <Button>Click Me!</Button>
+      <Button asChild>
+        <Link to='/teachers'>
+        Teachers
+        </Link>
+      </Button>
     </div>
   )
 }

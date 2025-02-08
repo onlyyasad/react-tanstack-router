@@ -20,6 +20,7 @@ import { Route as LayoutContactImport } from './routes/_layout/contact'
 // Create Virtual Routes
 
 const LayoutIndexLazyImport = createFileRoute('/_layout/')()
+const LayoutTeachersLazyImport = createFileRoute('/_layout/teachers')()
 
 // Create/Update Routes
 
@@ -39,6 +40,14 @@ const LayoutIndexLazyRoute = LayoutIndexLazyImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any).lazy(() => import('./routes/_layout/index.lazy').then((d) => d.Route))
+
+const LayoutTeachersLazyRoute = LayoutTeachersLazyImport.update({
+  id: '/teachers',
+  path: '/teachers',
+  getParentRoute: () => LayoutRoute,
+} as any).lazy(() =>
+  import('./routes/_layout/teachers.lazy').then((d) => d.Route),
+)
 
 const LayoutContactRoute = LayoutContactImport.update({
   id: '/contact',
@@ -71,6 +80,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutContactImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/teachers': {
+      id: '/_layout/teachers'
+      path: '/teachers'
+      fullPath: '/teachers'
+      preLoaderRoute: typeof LayoutTeachersLazyImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -85,11 +101,13 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutContactRoute: typeof LayoutContactRoute
+  LayoutTeachersLazyRoute: typeof LayoutTeachersLazyRoute
   LayoutIndexLazyRoute: typeof LayoutIndexLazyRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutContactRoute: LayoutContactRoute,
+  LayoutTeachersLazyRoute: LayoutTeachersLazyRoute,
   LayoutIndexLazyRoute: LayoutIndexLazyRoute,
 }
 
@@ -100,12 +118,14 @@ export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof LayoutContactRoute
+  '/teachers': typeof LayoutTeachersLazyRoute
   '/': typeof LayoutIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof LayoutContactRoute
+  '/teachers': typeof LayoutTeachersLazyRoute
   '/': typeof LayoutIndexLazyRoute
 }
 
@@ -114,15 +134,22 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/_layout/contact': typeof LayoutContactRoute
+  '/_layout/teachers': typeof LayoutTeachersLazyRoute
   '/_layout/': typeof LayoutIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/about' | '/contact' | '/'
+  fullPaths: '' | '/about' | '/contact' | '/teachers' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/contact' | '/'
-  id: '__root__' | '/_layout' | '/about' | '/_layout/contact' | '/_layout/'
+  to: '/about' | '/contact' | '/teachers' | '/'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/about'
+    | '/_layout/contact'
+    | '/_layout/teachers'
+    | '/_layout/'
   fileRoutesById: FileRoutesById
 }
 
@@ -154,6 +181,7 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/contact",
+        "/_layout/teachers",
         "/_layout/"
       ]
     },
@@ -162,6 +190,10 @@ export const routeTree = rootRoute
     },
     "/_layout/contact": {
       "filePath": "_layout/contact.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/teachers": {
+      "filePath": "_layout/teachers.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/": {

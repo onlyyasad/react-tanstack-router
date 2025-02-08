@@ -1,19 +1,22 @@
-import { Outlet, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { 
+  Outlet, 
+  // useNavigate 
+} from "@tanstack/react-router";
+// import { useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 const PrivateLayout = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 //   const isAuthenticated = localStorage.getItem("token"); // Example authentication check
-  const isAuthenticated = true; // Example authentication check
+  // const isAuthenticated = true; // Example authentication check
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate({ to: "/login" });
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate({ to: "/login" });
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   return (
     <div className="[--header-height:calc(theme(spacing.14))]">
@@ -30,7 +33,10 @@ const PrivateLayout = () => {
             </div>
             <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
           </div> */}
+          <div className="flex flex-1 flex-col gap-4 p-4">
           <Outlet />
+            </div>
+    
         </SidebarInset>
       </div>
     </SidebarProvider>
