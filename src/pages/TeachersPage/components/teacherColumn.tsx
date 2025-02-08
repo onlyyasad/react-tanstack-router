@@ -39,10 +39,10 @@ export const teacherColumns: ColumnDef<ITeacher>[] = [
       enableHiding: false,
     },
     {
-      accessorKey: "status",
-      header: "Status",
+      accessorKey: "name",
+      header: "Name",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("status")}</div>
+        <div className="capitalize">{row.getValue("name")}</div>
       ),
     },
     {
@@ -61,25 +61,38 @@ export const teacherColumns: ColumnDef<ITeacher>[] = [
       cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
     },
     {
-      accessorKey: "amount",
-      header: () => <div className="text-right">Amount</div>,
-      cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("amount"))
-  
-        // Format the amount as a dollar amount
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(amount)
-  
-        return <div className="text-right font-medium">{formatted}</div>
-      },
+      accessorKey: "phone",
+      header: "Phone",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("phone")}</div>
+      ),
+    },
+    {
+      accessorKey: "salary",
+      header: "Salary",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("salary")}</div>
+      ),
+    },
+    {
+      accessorKey: "expertise",
+      header: "Expertise",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("expertise")}</div>
+      ),
+    },
+    {
+      accessorKey: "location",
+      header: "City",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("location")}</div>
+      ),
     },
     {
       id: "actions",
-      enableHiding: false,
+      header: "Actions",
       cell: ({ row }) => {
-        const payment = row.original
+        const teacher = row.original
   
         return (
           <DropdownMenu>
@@ -92,13 +105,13 @@ export const teacherColumns: ColumnDef<ITeacher>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id.toString())}
+                onClick={() => navigator.clipboard.writeText(teacher.id.toString())}
               >
-                Copy payment ID
+                Copy teacher ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
+              <DropdownMenuItem>View teacher details</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

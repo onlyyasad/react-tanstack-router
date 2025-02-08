@@ -5,7 +5,7 @@ export const useGetTeachers = ({ filters }:{filters: any}) => {
   console.log("hook filters",filters);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["users", filters],
-    queryFn: () => axios.get("http://localhost:4000/api/teachers"),
+    queryFn: () => axios.get("http://localhost:4000/api/teachers?per_page=25"),
     placeholderData: keepPreviousData,
   });
 
