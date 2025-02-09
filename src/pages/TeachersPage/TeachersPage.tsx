@@ -7,8 +7,15 @@ import {
 } from "@tanstack/react-table";
 import { teacherColumns } from "./components/teacherColumn";
 import { useGetTeachers } from "@/hooks/useGetTeachers";
+import { useFilters } from "@/hooks/useFilters";
+import { RegisteredRouter, RouteIds } from "@tanstack/react-router";
 
-const TeachersPage = () => {
+const TeachersPage = ({routeId}:{routeId: RouteIds<RegisteredRouter["routeTree"]>}) => {
+  
+  const { filters, resetFilters, setFilters } = useFilters(routeId);
+
+  console.log("filters", filters)
+
   // ------ Old ------ //
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -18,13 +25,9 @@ const TeachersPage = () => {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  // ------
-
-  const filters = {};
+  // ------ Old ------ //
 
   const { data: teachersData } = useGetTeachers({ filters });
-
-  console.log(teachersData?.data);
 
   const columns = useMemo(() => teacherColumns, [teachersData]);
 

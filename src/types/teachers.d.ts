@@ -22,3 +22,8 @@ export interface ITeacherResponse {
     data: ITeacher[];
     pagination: IPagination;
 }
+
+
+export type PaginationParams = { page: number; per_page: number };
+export type SortParams = { sortBy: `${string}.${"asc" | "desc"}` };
+export type Filters<T> = Partial<T & PaginationParams & SortParams>;
