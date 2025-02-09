@@ -9,6 +9,17 @@ export interface ITeacher {
     location: string;
 }
 
+export type Teacher = {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    age: number;
+    salary: string;
+    expertise: string;
+    location: string;
+}
+
 export interface IPagination {
     current_page: number;
     per_page: number;
@@ -23,7 +34,8 @@ export interface ITeacherResponse {
     pagination: IPagination;
 }
 
-
 export type PaginationParams = { page: number; per_page: number };
-export type SortParams = { sortBy: `${string}.${"asc" | "desc"}` };
+export type SortParams = { sort: `${string}.${"asc" | "desc"}` };
 export type Filters<T> = Partial<T & PaginationParams & SortParams>;
+
+export type TeacherFilters = Filters<Teacher>;

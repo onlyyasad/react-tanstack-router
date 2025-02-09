@@ -12,7 +12,7 @@ import { RegisteredRouter, RouteIds } from "@tanstack/react-router";
 
 const TeachersPage = ({routeId}:{routeId: RouteIds<RegisteredRouter["routeTree"]>}) => {
   
-  const { filters, resetFilters, setFilters } = useFilters(routeId);
+  const { filters } = useFilters(routeId);
 
   console.log("filters", filters)
 
@@ -45,6 +45,7 @@ const TeachersPage = ({routeId}:{routeId: RouteIds<RegisteredRouter["routeTree"]
       setColumnVisibility={setColumnVisibility}
       setRowSelection={setRowSelection}
       setSorting={setSorting}
+      routeId={routeId}
     />
   );
 };
