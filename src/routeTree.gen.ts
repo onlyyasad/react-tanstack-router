@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as AboutImport } from './routes/about'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutTeachersImport } from './routes/_layout/teachers'
@@ -23,6 +24,12 @@ import { Route as LayoutContactImport } from './routes/_layout/contact'
 const LayoutIndexLazyImport = createFileRoute('/_layout/')()
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AboutRoute = AboutImport.update({
   id: '/about',
@@ -71,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/_layout/contact': {
       id: '/_layout/contact'
       path: '/contact'
@@ -115,6 +129,7 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/contact': typeof LayoutContactRoute
   '/teachers': typeof LayoutTeachersRoute
   '/': typeof LayoutIndexLazyRoute
@@ -122,6 +137,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/contact': typeof LayoutContactRoute
   '/teachers': typeof LayoutTeachersRoute
   '/': typeof LayoutIndexLazyRoute
@@ -131,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/_layout/contact': typeof LayoutContactRoute
   '/_layout/teachers': typeof LayoutTeachersRoute
   '/_layout/': typeof LayoutIndexLazyRoute
@@ -138,13 +155,14 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/about' | '/contact' | '/teachers' | '/'
+  fullPaths: '' | '/about' | '/login' | '/contact' | '/teachers' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/contact' | '/teachers' | '/'
+  to: '/about' | '/login' | '/contact' | '/teachers' | '/'
   id:
     | '__root__'
     | '/_layout'
     | '/about'
+    | '/login'
     | '/_layout/contact'
     | '/_layout/teachers'
     | '/_layout/'
@@ -154,11 +172,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   LayoutRoute: typeof LayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LayoutRoute: LayoutRouteWithChildren,
   AboutRoute: AboutRoute,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -172,7 +192,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/_layout",
-        "/about"
+        "/about",
+        "/login"
       ]
     },
     "/_layout": {
@@ -185,6 +206,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/_layout/contact": {
       "filePath": "_layout/contact.tsx",
