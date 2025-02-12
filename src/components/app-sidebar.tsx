@@ -56,12 +56,12 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Overview",
+          url: "/overview",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "Teachers",
+          url: "/teachers",
         },
         {
           title: "Settings",
@@ -137,8 +137,8 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
+      name: "Login",
+      url: "/login",
       icon: Frame,
     },
     {
