@@ -37,7 +37,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Component() {
+export function AreaChartOne() {
   return (
     <Card>
       <CardHeader>
