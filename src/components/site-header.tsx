@@ -4,6 +4,7 @@ import { SearchForm } from "@/components/search-form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useSidebar } from "@/components/ui/sidebar";
+import { Link } from "@tanstack/react-router";
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar();
@@ -20,11 +21,11 @@ export function SiteHeader() {
           <SidebarIcon />
         </Button>
         <Separator orientation="vertical" className="mr-2 h-4" />
-        <div className="text-xl font-extrabold">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+        <Link to="/" className="text-xl font-extrabold">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 tracking-widest">
             PLAYGROUND
           </span>
-        </div>
+        </Link>
         <SearchForm className="w-full sm:ml-auto sm:w-auto" />
       </div>
     </header>
