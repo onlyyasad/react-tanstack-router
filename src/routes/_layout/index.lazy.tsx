@@ -16,18 +16,18 @@ export const Route = createLazyFileRoute("/_layout/")({
 
 function RouteComponent() {
   return (
-    <div>
+    <div className="container mx-auto">
       <div>
-        <Carousel className="w-full max-w-xs">
+        <Carousel className="w-full">
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
               <CarouselItem key={index}>
                 <div className="p-1">
                   <Card>
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                      <span className="text-4xl font-semibold">
-                        {index + 1}
-                      </span>
+                    <CardContent className="flex aspect-auto items-center justify-center p-6">
+                      <div>
+                        <img src="https://images.pexels.com/photos/1403653/pexels-photo-1403653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
